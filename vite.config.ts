@@ -18,7 +18,7 @@ export default defineConfig({
     target: 'es2015'
   },
   // Add base path configuration for deployment flexibility
-  base: './',
+  base: '/',
   // Ensure proper resolution of assets and imports
   resolve: {
     alias: {
@@ -34,4 +34,4 @@ export default defineConfig({
     // Prevent CORS issues during development
     cors: true
   }
-});
+}); 
