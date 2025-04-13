@@ -9,7 +9,8 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['@react-pdf/renderer'],
+      // Remove @react-pdf/renderer from external as it's causing deployment issues
+      // external: ['@react-pdf/renderer'],
     },
     // Ensure assets are correctly referenced
     assetsDir: 'assets',
