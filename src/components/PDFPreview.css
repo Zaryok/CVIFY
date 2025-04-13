@@ -1,0 +1,217 @@
+/* PDF Preview Styling */
+.pdf-container {
+  font-family: 'Times New Roman', Times, serif !important;
+  color: #000000;
+  max-width: 794px;
+  margin: 0 auto;
+  padding: 40px 60px;
+  background-color: white;
+  box-sizing: border-box;
+  line-height: 1.4;
+  position: relative;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.name {
+  font-size: 26px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 15px 0;
+  text-align: center;
+}
+
+/* Contact Info */
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  width: 100%;
+  justify-content: center;
+}
+
+.contact-icon {
+  width: 18px;
+  text-align: center;
+  margin-right: 10px;
+  font-size: 12px;
+}
+
+.contact-icon-svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  color: #000000;
+  flex-shrink: 0;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.contact-text {
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.contact-bullet {
+  margin: 0 10px;
+  font-size: 12px;
+}
+
+.contact-link {
+  color: #000000;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.contact-link:hover {
+  color: #1a56db;
+  text-decoration: underline;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 8px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #000000;
+  text-transform: none;
+}
+
+/* Items */
+.item {
+  margin-bottom: 12px;
+}
+
+.item-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 3px;
+  margin-top: 0;
+}
+
+.item-location {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  margin: 0;
+}
+
+.item-dates {
+  font-size: 12px;
+  margin: 3px 0;
+  font-style: italic;
+}
+
+.education-detail {
+  font-size: 12px;
+  margin: 3px 0 6px 0;
+}
+
+.regular {
+  font-weight: normal;
+}
+
+/* Objective */
+.objective {
+  font-size: 12px;
+  text-align: justify;
+  line-height: 1.4;
+  margin: 0 0 15px 0;
+}
+
+/* Bullet Points */
+.bullet-point {
+  display: flex;
+  margin-bottom: 6px;
+  padding-left: 15px;
+  position: relative;
+}
+
+.bullet {
+  position: absolute;
+  left: 0;
+  width: 15px;
+  text-align: center;
+}
+
+.bullet-content {
+  flex: 1;
+  font-size: 12px;
+}
+
+/* Projects */
+.project-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 3px 0;
+}
+
+.project-description {
+  font-size: 12px;
+  margin: 0 0 6px 0;
+  text-align: justify;
+}
+
+.link {
+  font-size: 12px;
+  margin: 3px 0;
+}
+
+/* Skills */
+.skills-item {
+  display: flex;
+  margin-bottom: 4px;
+  align-items: baseline;
+}
+
+.skills-label {
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.skills-content {
+  font-size: 12px;
+}
+
+/* Leadership Roles */
+.role-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 3px 0;
+}
+
+/* Page Number */
+.page-number {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 10px;
+}

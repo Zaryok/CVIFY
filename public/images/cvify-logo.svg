@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <!-- Main C shape -->
+  <path d="M30,20 C20,20 10,30 10,50 C10,70 20,80 35,80 C45,80 52,75 55,65" stroke="#000" stroke-width="8" fill="none" stroke-linecap="round"/>
+  
+  <!-- V shape -->
+  <path d="M45,20 L65,80 L85,20" stroke="#000" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- I line -->
+  <line x1="70" y1="60" x2="70" y2="80" stroke="#794C06" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Text part -->
+  <text x="15" y="100" font-family="Arial, sans-serif" font-weight="bold" font-size="16">CVIFY</text>
+</svg> 
