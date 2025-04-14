@@ -1,15 +1,80 @@
 /** @jsxRuntime classic */
 /** @jsx React.createElement */
-import React from 'react';
-import { CVData } from '../types';
+import React, { useEffect, useState } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
+import { PDFDocument } from '../lib/pdf-generator';
+import { CVData } from '../types/cv';
+import { pdf } from '@react-pdf/renderer';
+import { Loader2 } from 'lucide-react';
 import './PDFPreview.css';
 import { MapPin, Phone, Mail, Linkedin, Github, Globe } from 'lucide-react';
 
+// Initialize pdfjs worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
 interface PDFPreviewProps {
   data: CVData;
+  template?: any;
 }
 
-export function PDFPreview({ data }: PDFPreviewProps) {
+export function PDFPreview({ data, template }: PDFPreviewProps) {
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [numPages, setNumPages] = useState<number | null>(null);
+  const [scale, setScale] = useState(1);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    // Responsive scaling for mobile devices
+    const handleResize = () => {
+      const containerWidth = document.querySelector('.preview-container')?.clientWidth || 0;
+      setWidth(containerWidth);
+      
+      // Adjust scale based on screen width
+      if (containerWidth < 500) {
+        setScale(containerWidth / 830); // A4 paper width is ~830px at 100% scale
+      } else {
+        setScale(1);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    // Initial call
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const generatePDF = async () => {
+      try {
+        setLoading(true);
+        const doc = <PDFDocument cvData={data} />;
+        const pdfBlob = await pdf(doc).toBlob();
+        const url = URL.createObjectURL(pdfBlob);
+        setPdfUrl(url);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        setLoading(false);
+      }
+    };
+
+    if (data) {
+      generatePDF();
+    }
+
+    return () => {
+      if (pdfUrl) {
+        URL.revokeObjectURL(pdfUrl);
+      }
+    };
+  }, [data]);
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+  };
+
   // Get objective text from custom sections
   const getObjectiveText = (): string => {
     const objectiveSection = data.content.customSections?.find(section => 
@@ -108,217 +173,53 @@ export function PDFPreview({ data }: PDFPreviewProps) {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <Loader2 className="w-12 h-12 text-indigo-600 animate-spin" />
+        <p className="mt-4 text-gray-600 dark:text-gray-300">Generating PDF preview...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="pdf-container">
-      {/* Header with Name */}
-      <div className="header">
-        <h1 className="name">{data.content.personal.fullName}</h1>
-      </div>
-      
-      {/* Contact Information */}
-      <div className="contact-container">
-        <div className="contact-row">
-          {getContactIcon('location')}
-          <span className="contact-text">{data.content.personal.location}</span>
-          <span className="contact-bullet">•</span>
-          {getContactIcon('phone')}
-          <span className="contact-text">{data.content.personal.phone}</span>
-        </div>
-        
-        <div className="contact-row">
-          {getContactIcon('email')}
-          <a 
-            href={`mailto:${data.content.personal.email}`} 
-            className="contact-text contact-link"
-          >
-            {data.content.personal.email}
-          </a>
-        </div>
-        
-        {data.content.personal.linkedin && (
-          <div className="contact-row">
-            {getContactIcon('linkedin')}
-            <a 
-              href={getFullURL(data.content.personal.linkedin, 'linkedin')} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="contact-text contact-link"
-            >
-              {formatLinkedIn(data.content.personal.linkedin)}
-            </a>
-          </div>
-        )}
-        
-        {data.content.personal.github && (
-          <div className="contact-row">
-            {getContactIcon('github')}
-            <a 
-              href={getFullURL(data.content.personal.github, 'github')} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="contact-text contact-link"
-            >
-              {formatGitHub(data.content.personal.github)}
-            </a>
-          </div>
-        )}
-        
-        {data.content.personal.portfolio && (
-          <div className="contact-row">
-            {getContactIcon('portfolio')}
-            <a 
-              href={getFullURL(data.content.personal.portfolio, 'portfolio')} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="contact-text contact-link"
-            >
-              {data.content.personal.portfolio && data.content.personal.portfolio !== "Portfolio" 
-                ? formatPortfolio(data.content.personal.portfolio)
-                : "Portfolio"}
-            </a>
-          </div>
-        )}
-      </div>
-
-      {/* Objective */}
-      {getObjectiveText() && (
-        <div className="section">
-          <h2 className="section-title">Objective</h2>
-          <p className="objective">{getObjectiveText()}</p>
-        </div>
-      )}
-
-      {/* Education */}
-      {data.content.education.some(edu => 
-        edu.school.trim() || edu.degree.trim() || edu.field.trim() || edu.description.trim()
-      ) && (
-        <div className="section">
-          <h2 className="section-title">Education</h2>
-          {data.content.education
-            .filter(edu => edu.school.trim() || edu.degree.trim() || edu.field.trim() || edu.description.trim())
-            .map((edu, index) => (
-              <div key={index} className="item">
-                <h3 className="item-title">
-                  {edu.degree}{edu.field ? `, ${edu.field}` : ''}{edu.school ? `, ${edu.school}` : ''}
-                  {edu.endDate ? ` (${edu.endDate.includes('Expected') ? edu.endDate : 'Expected ' + edu.endDate})` : ''}
-                </h3>
-                {/* Education section description */}
-                {edu.description.split('\n')[0]?.trim().startsWith('Branch:') && (
-                  <p className="education-detail">{edu.description.split('\n')[0]}</p>
-                )}
-                {/* For other school entries, just show the branch as is */}
-                {!edu.description.split('\n')[0]?.trim().startsWith('Branch:') && edu.description.split('\n')[0] && (
-                  <p className="education-detail">Branch: {edu.description.split('\n')[0]}</p>
-                )}
-                
-                {/* Display the rest of the description without forcing bullet points */}
-                {edu.description.split('\n').slice(1).join('\n') && (
-                  <div className="education-description">
-                    {renderBulletPoints(edu.description.split('\n').slice(1).join('\n'))}
+    <div className="pdf-preview flex flex-col items-center">
+      {pdfUrl ? (
+        <Document
+          file={pdfUrl}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={(error) => console.error('Error loading PDF:', error)}
+          className="pdf-document"
+          loading={
+            <div className="flex flex-col items-center justify-center py-12">
+              <Loader2 className="w-12 h-12 text-indigo-600 animate-spin" />
+              <p className="mt-4 text-gray-600 dark:text-gray-300">Loading PDF...</p>
+            </div>
+          }
+        >
+          {Array.from(new Array(numPages || 0), (_, index) => (
+            <div key={`page_${index + 1}`} className="pdf-page-container mb-4">
+              <Page
+                key={`page_${index + 1}`}
+                pageNumber={index + 1}
+                scale={scale}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                className="pdf-page shadow-lg"
+                loading={
+                  <div className="flex items-center justify-center h-[1100px] w-full">
+                    <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
                   </div>
-                )}
-              </div>
-            ))}
+                }
+              />
+            </div>
+          ))}
+        </Document>
+      ) : (
+        <div className="text-center p-6">
+          <p className="text-gray-600 dark:text-gray-300">Unable to generate PDF preview.</p>
         </div>
       )}
-
-      {/* Experience - Only show if there's valid content */}
-      {hasValidExperience && (
-        <div className="section">
-          <h2 className="section-title">Professional Experience</h2>
-          {data.content.experience
-            .filter(exp => exp.company.trim() || exp.position.trim() || exp.description.trim())
-            .map((exp, index) => (
-              <div key={index} className="item">
-                <h3 className="item-title">{exp.position}, {exp.company}</h3>
-                <p className="item-dates">{exp.startDate} - {exp.endDate}</p>
-                {renderBulletPoints(exp.description)}
-              </div>
-            ))}
-        </div>
-      )}
-
-      {/* Skills */}
-      {(data.content.skills.technical || data.content.skills.soft || data.content.skills.languages) && (
-        <div className="section">
-          <h2 className="section-title">Skills</h2>
-          
-          {data.content.skills.technical && (
-            <div className="skills-item">
-              <span className="skills-label">Languages:</span>
-              <span className="skills-content">{data.content.skills.technical}</span>
-            </div>
-          )}
-          
-          {data.content.skills.soft && (
-            <div className="skills-item">
-              <span className="skills-label">Soft Skills:</span>
-              <span className="skills-content">{data.content.skills.soft}</span>
-            </div>
-          )}
-          
-          {data.content.skills.languages && (
-            <div className="skills-item">
-              <span className="skills-label">Languages:</span>
-              <span className="skills-content">{data.content.skills.languages}</span>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Projects and Other Custom Sections */}
-      {data.content.customSections?.filter(
-        section => !section.title.toLowerCase().includes('objective') && section.content.trim()
-      ).map((section, index) => (
-        <div key={index} className="section">
-          <h2 className="section-title">{section.title}</h2>
-          {section.title.toLowerCase().includes('project') ? (
-            // For project sections, format with project title and description
-            section.content.split('\n\n').map((project, pIndex) => {
-              const lines = project.split('\n');
-              const projectTitle = lines[0];
-              const projectDesc = lines.slice(1).join('\n');
-              
-              return (
-                <div key={pIndex} className="item">
-                  <h3 className="project-title">{projectTitle}</h3>
-                  {projectDesc.split('\n')[0] && (
-                    <p className="project-description">
-                      {projectDesc.split('\n')[0] || ''}
-                    </p>
-                  )}
-                  {renderBulletPoints(projectDesc.split('\n').slice(1).join('\n'))}
-                  {projectDesc.toLowerCase().includes('live demo') && (
-                    <p className="link">Live Demo: LINK</p>
-                  )}
-                </div>
-              );
-            })
-          ) : section.title.toLowerCase().includes('leadership') || 
-             section.title.toLowerCase().includes('activities') || 
-             section.title.toLowerCase().includes('volunteer') ? (
-            // For leadership and activity sections
-            section.content.split('\n\n').map((role, rIndex) => {
-              const lines = role.split('\n');
-              const roleTitle = lines[0];
-              const roleDesc = lines.slice(1).join('\n');
-              
-              return (
-                <div key={rIndex} className="item">
-                  <h3 className="role-title">{roleTitle}</h3>
-                  {renderBulletPoints(roleDesc)}
-                </div>
-              );
-            })
-          ) : (
-            // For other sections, use bullet points
-            renderBulletPoints(section.content)
-          )}
-        </div>
-      ))}
-
-      {/* Page Number */}
-      <div className="page-number">1</div>
     </div>
   );
 }
