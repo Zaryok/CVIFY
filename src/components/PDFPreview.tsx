@@ -2,7 +2,7 @@
 /** @jsx React.createElement */
 import React, { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { PDFDocument } from '../lib/pdf-generator';
+import { CVDocument } from '../lib/pdf-generator.tsx';
 import { CVData } from '../types';
 import { pdf } from '@react-pdf/renderer';
 import { Loader2 } from 'lucide-react';
@@ -49,7 +49,7 @@ export function PDFPreview({ data, template }: PDFPreviewProps) {
     const generatePDF = async () => {
       try {
         setLoading(true);
-        const doc = <PDFDocument cvData={data} />;
+        const doc = <CVDocument cvData={data} />;
         const pdfBlob = await pdf(doc).toBlob();
         const url = URL.createObjectURL(pdfBlob);
         setPdfUrl(url);
