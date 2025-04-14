@@ -663,3 +663,6 @@ export const CVDocument: React.FC<CVDocumentProps> = ({ cvData }) => {
     </Document>
   );
 };
+
+// Add an additional export to match the import in PDFPreview.tsx
+export { CVDocument as PDFDocument };

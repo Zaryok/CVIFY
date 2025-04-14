@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { PDFDocument } from '../lib/pdf-generator';
-import { CVData } from '../types/cv';
+import { CVData } from '../types';
 import { pdf } from '@react-pdf/renderer';
 import { Loader2 } from 'lucide-react';
 import './PDFPreview.css';
