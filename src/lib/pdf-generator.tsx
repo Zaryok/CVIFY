@@ -40,9 +40,13 @@ Font.register({
 Font.register({
   family: 'Inter',
   fonts: [
+    { src: 'https://rsms.me/inter/font-files/Inter-Regular.woff2', fontWeight: 400 },
     { src: 'https://rsms.me/inter/font-files/Inter-Regular.woff2', fontWeight: 'normal' },
+    { src: 'https://rsms.me/inter/font-files/Inter-Medium.woff2', fontWeight: 500 },
     { src: 'https://rsms.me/inter/font-files/Inter-Medium.woff2', fontWeight: 'medium' },
+    { src: 'https://rsms.me/inter/font-files/Inter-SemiBold.woff2', fontWeight: 600 },
     { src: 'https://rsms.me/inter/font-files/Inter-SemiBold.woff2', fontWeight: 'semibold' },
+    { src: 'https://rsms.me/inter/font-files/Inter-Bold.woff2', fontWeight: 700 },
     { src: 'https://rsms.me/inter/font-files/Inter-Bold.woff2', fontWeight: 'bold' }
   ]
 });
@@ -354,7 +358,7 @@ export const CVDocument: React.FC<CVDocumentProps> = ({ cvData }) => {
   // Apply custom styling if available
   const pageStyle = {
     ...styles.page,
-    fontFamily: cvData.styling?.font || 'TimesNewRoman',
+    fontFamily: cvData.styling?.font || 'TimesNewRoman, Inter, Helvetica, sans-serif',
     padding: 30 * spacing,
     backgroundColor: 'white' // Ensure consistent white background
   } as Style;
