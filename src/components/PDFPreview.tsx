@@ -2,7 +2,7 @@
 /** @jsx React.createElement */
 import React, { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import { CVDocument } from '../lib/pdf-generator.tsx';
+import { CVDocument } from '../lib/pdf-generator';
 import { CVData } from '../types';
 import { pdf } from '@react-pdf/renderer';
 import { Loader2 } from 'lucide-react';
