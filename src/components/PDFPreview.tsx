@@ -109,191 +109,216 @@ export function PDFPreview({ data }: PDFPreviewProps) {
   };
 
   return (
-    <div className="w-full h-full flex flex-col">
-      <div className="flex-1 overflow-auto bg-white dark:bg-gray-900 p-4 sm:p-6">
-        <div className="max-w-[800px] mx-auto">
-          <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-            <div className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-                <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                    {data.content.personal.fullName}
-                  </h1>
-                  <div className="flex flex-wrap gap-2 text-sm text-gray-600 dark:text-gray-300">
-                    {data.content.personal.email && (
-                      <span className="flex items-center">
-                        <Mail className="w-4 h-4 mr-1" />
-                        {data.content.personal.email}
-                      </span>
-                    )}
-                    {data.content.personal.phone && (
-                      <span className="flex items-center">
-                        <Phone className="w-4 h-4 mr-1" />
-                        {data.content.personal.phone}
-                      </span>
-                    )}
-                    {data.content.personal.location && (
-                      <span className="flex items-center">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        {data.content.personal.location}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="mt-4 sm:mt-0 flex flex-wrap gap-2">
-                  {data.content.personal.linkedin && (
-                    <a
-                      href={data.content.personal.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300"
-                    >
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                  )}
-                  {data.content.personal.portfolio && (
-                    <a
-                      href={data.content.personal.portfolio}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300"
-                    >
-                      <Globe className="w-5 h-5" />
-                    </a>
-                  )}
-                </div>
-              </div>
-
-              {/* Objective */}
-              {data.content.objective && (
-                <div className="mb-6">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                    Objective
-                  </h2>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    {data.content.objective}
-                  </p>
-                </div>
-              )}
-
-              {/* Education */}
-              {data.content.education.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Education
-                  </h2>
-                  <div className="space-y-4">
-                    {data.content.education.map((edu, index) => (
-                      <div key={index} className="border-l-2 border-indigo-500 pl-4">
-                        <div className="flex flex-col sm:flex-row justify-between mb-1">
-                          <h3 className="font-medium text-gray-900 dark:text-white">
-                            {edu.school}
-                          </h3>
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {edu.startDate} - {edu.endDate}
-                          </span>
-                        </div>
-                        <p className="text-gray-700 dark:text-gray-300">
-                          {edu.degree} in {edu.field}
-                        </p>
-                        {edu.description && (
-                          <div className="mt-2 text-gray-600 dark:text-gray-400">
-                            {renderBulletPoints(edu.description)}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Experience */}
-              {data.content.experience.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Experience
-                  </h2>
-                  <div className="space-y-4">
-                    {data.content.experience.map((exp, index) => (
-                      <div key={index} className="border-l-2 border-indigo-500 pl-4">
-                        <div className="flex flex-col sm:flex-row justify-between mb-1">
-                          <h3 className="font-medium text-gray-900 dark:text-white">
-                            {exp.company}
-                          </h3>
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {exp.startDate} - {exp.endDate}
-                          </span>
-                        </div>
-                        <p className="text-gray-700 dark:text-gray-300">
-                          {exp.position} | {exp.location}
-                        </p>
-                        {exp.description && (
-                          <div className="mt-2 text-gray-600 dark:text-gray-400">
-                            {renderBulletPoints(exp.description)}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Skills */}
-              {(data.content.skills.technical || data.content.skills.soft || data.content.skills.languages) && (
-                <div className="mb-6">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    Skills
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {data.content.skills.technical && (
-                      <div>
-                        <h3 className="font-medium text-gray-900 dark:text-white mb-2">
-                          Technical Skills
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          {data.content.skills.technical}
-                        </p>
-                      </div>
-                    )}
-                    {data.content.skills.soft && (
-                      <div>
-                        <h3 className="font-medium text-gray-900 dark:text-white mb-2">
-                          Soft Skills
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          {data.content.skills.soft}
-                        </p>
-                      </div>
-                    )}
-                    {data.content.skills.languages && (
-                      <div>
-                        <h3 className="font-medium text-gray-900 dark:text-white mb-2">
-                          Languages
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          {data.content.skills.languages}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Custom Sections */}
-              {data.content.customSections?.map((section) => (
-                <div key={section.id} className="mb-6">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                    {section.title}
-                  </h2>
-                  <div className="text-gray-600 dark:text-gray-400">
-                    {renderBulletPoints(section.content)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+    <div className="pdf-container">
+      {/* Header with Name */}
+      <div className="header">
+        <h1 className="name">{data.content.personal.fullName}</h1>
       </div>
+      
+      {/* Contact Information */}
+      <div className="contact-container">
+        <div className="contact-row">
+          {getContactIcon('location')}
+          <span className="contact-text">{data.content.personal.location}</span>
+          <span className="contact-bullet">•</span>
+          {getContactIcon('phone')}
+          <span className="contact-text">{data.content.personal.phone}</span>
+        </div>
+        
+        <div className="contact-row">
+          {getContactIcon('email')}
+          <a 
+            href={`mailto:${data.content.personal.email}`} 
+            className="contact-text contact-link"
+          >
+            {data.content.personal.email}
+          </a>
+        </div>
+        
+        {data.content.personal.linkedin && (
+          <div className="contact-row">
+            {getContactIcon('linkedin')}
+            <a 
+              href={getFullURL(data.content.personal.linkedin, 'linkedin')} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="contact-text contact-link"
+            >
+              {formatLinkedIn(data.content.personal.linkedin)}
+            </a>
+          </div>
+        )}
+        
+        {data.content.personal.github && (
+          <div className="contact-row">
+            {getContactIcon('github')}
+            <a 
+              href={getFullURL(data.content.personal.github, 'github')} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="contact-text contact-link"
+            >
+              {formatGitHub(data.content.personal.github)}
+            </a>
+          </div>
+        )}
+        
+        {data.content.personal.portfolio && (
+          <div className="contact-row">
+            {getContactIcon('portfolio')}
+            <a 
+              href={getFullURL(data.content.personal.portfolio, 'portfolio')} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="contact-text contact-link"
+            >
+              {data.content.personal.portfolio && data.content.personal.portfolio !== "Portfolio" 
+                ? formatPortfolio(data.content.personal.portfolio)
+                : "Portfolio"}
+            </a>
+          </div>
+        )}
+      </div>
+
+      {/* Objective */}
+      {getObjectiveText() && (
+        <div className="section">
+          <h2 className="section-title">Objective</h2>
+          <p className="objective">{getObjectiveText()}</p>
+        </div>
+      )}
+
+      {/* Education */}
+      {data.content.education.some(edu => 
+        edu.school.trim() || edu.degree.trim() || edu.field.trim() || edu.description.trim()
+      ) && (
+        <div className="section">
+          <h2 className="section-title">Education</h2>
+          {data.content.education
+            .filter(edu => edu.school.trim() || edu.degree.trim() || edu.field.trim() || edu.description.trim())
+            .map((edu, index) => (
+              <div key={index} className="item">
+                <h3 className="item-title">
+                  {edu.degree}{edu.field ? `, ${edu.field}` : ''}{edu.school ? `, ${edu.school}` : ''}
+                  {edu.endDate ? ` (${edu.endDate.includes('Expected') ? edu.endDate : 'Expected ' + edu.endDate})` : ''}
+                </h3>
+                {/* Education section description */}
+                {edu.description.split('\n')[0]?.trim().startsWith('Branch:') && (
+                  <p className="education-detail">{edu.description.split('\n')[0]}</p>
+                )}
+                {/* For other school entries, just show the branch as is */}
+                {!edu.description.split('\n')[0]?.trim().startsWith('Branch:') && edu.description.split('\n')[0] && (
+                  <p className="education-detail">Branch: {edu.description.split('\n')[0]}</p>
+                )}
+                
+                {/* Display the rest of the description without forcing bullet points */}
+                {edu.description.split('\n').slice(1).join('\n') && (
+                  <div className="education-description">
+                    {renderBulletPoints(edu.description.split('\n').slice(1).join('\n'))}
+                  </div>
+                )}
+              </div>
+            ))}
+        </div>
+      )}
+
+      {/* Experience - Only show if there's valid content */}
+      {hasValidExperience && (
+        <div className="section">
+          <h2 className="section-title">Professional Experience</h2>
+          {data.content.experience
+            .filter(exp => exp.company.trim() || exp.position.trim() || exp.description.trim())
+            .map((exp, index) => (
+              <div key={index} className="item">
+                <h3 className="item-title">{exp.position}, {exp.company}</h3>
+                <p className="item-dates">{exp.startDate} - {exp.endDate}</p>
+                {renderBulletPoints(exp.description)}
+              </div>
+            ))}
+        </div>
+      )}
+
+      {/* Skills */}
+      {(data.content.skills.technical || data.content.skills.soft || data.content.skills.languages) && (
+        <div className="section">
+          <h2 className="section-title">Skills</h2>
+          
+          {data.content.skills.technical && (
+            <div className="skills-item">
+              <span className="skills-label">Languages:</span>
+              <span className="skills-content">{data.content.skills.technical}</span>
+            </div>
+          )}
+          
+          {data.content.skills.soft && (
+            <div className="skills-item">
+              <span className="skills-label">Soft Skills:</span>
+              <span className="skills-content">{data.content.skills.soft}</span>
+            </div>
+          )}
+          
+          {data.content.skills.languages && (
+            <div className="skills-item">
+              <span className="skills-label">Languages:</span>
+              <span className="skills-content">{data.content.skills.languages}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Projects and Other Custom Sections */}
+      {data.content.customSections?.filter(
+        section => !section.title.toLowerCase().includes('objective') && section.content.trim()
+      ).map((section, index) => (
+        <div key={index} className="section">
+          <h2 className="section-title">{section.title}</h2>
+          {section.title.toLowerCase().includes('project') ? (
+            // For project sections, format with project title and description
+            section.content.split('\n\n').map((project, pIndex) => {
+              const lines = project.split('\n');
+              const projectTitle = lines[0];
+              const projectDesc = lines.slice(1).join('\n');
+              
+              return (
+                <div key={pIndex} className="item">
+                  <h3 className="project-title">{projectTitle}</h3>
+                  {projectDesc.split('\n')[0] && (
+                    <p className="project-description">
+                      {projectDesc.split('\n')[0] || ''}
+                    </p>
+                  )}
+                  {renderBulletPoints(projectDesc.split('\n').slice(1).join('\n'))}
+                  {projectDesc.toLowerCase().includes('live demo') && (
+                    <p className="link">Live Demo: LINK</p>
+                  )}
+                </div>
+              );
+            })
+          ) : section.title.toLowerCase().includes('leadership') || 
+             section.title.toLowerCase().includes('activities') || 
+             section.title.toLowerCase().includes('volunteer') ? (
+            // For leadership and activity sections
+            section.content.split('\n\n').map((role, rIndex) => {
+              const lines = role.split('\n');
+              const roleTitle = lines[0];
+              const roleDesc = lines.slice(1).join('\n');
+              
+              return (
+                <div key={rIndex} className="item">
+                  <h3 className="role-title">{roleTitle}</h3>
+                  {renderBulletPoints(roleDesc)}
+                </div>
+              );
+            })
+          ) : (
+            // For other sections, use bullet points
+            renderBulletPoints(section.content)
+          )}
+        </div>
+      ))}
+
+      {/* Page Number */}
+      <div className="page-number">1</div>
     </div>
   );
 }
