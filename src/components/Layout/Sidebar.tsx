@@ -12,12 +12,12 @@ export function Sidebar() {
   const location = useLocation();
   
   return (
-    <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full flex flex-col">
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+    <div className="w-64 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
+      <div className="px-4 md:px-6 py-4 border-b border-gray-200 dark:border-gray-700">
         <h1 className="text-xl font-bold text-gray-900 dark:text-white">CVify</h1>
       </div>
-      <nav className="flex-1 p-4">
-        <ul className="space-y-1">
+      <nav className="flex-1 p-2 md:p-4">
+        <ul className="space-y-2">
           {navItems.map((item) => (
             <li key={item.path}>
               <Link
@@ -29,7 +29,7 @@ export function Sidebar() {
                 }`}
               >
                 {item.icon}
-                <span>{item.title}</span>
+                <span className="text-sm md:text-base">{item.title}</span>
               </Link>
             </li>
           ))}
