@@ -3,6 +3,8 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import ReactDOMServer from 'react-dom/server';
 import React from 'react';
+import { CVDocument } from './pdf-generator.tsx';
+export { CVDocument };
 
 // Define a simple version of PDFDocument for use in this file
 // This breaks the circular dependency
