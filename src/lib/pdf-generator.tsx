@@ -36,11 +36,22 @@ Font.register({
   ]
 });
 
+// Add Inter font registration
+Font.register({
+  family: 'Inter',
+  fonts: [
+    { src: 'https://rsms.me/inter/font-files/Inter-Regular.woff2', fontWeight: 'normal' },
+    { src: 'https://rsms.me/inter/font-files/Inter-Medium.woff2', fontWeight: 'medium' },
+    { src: 'https://rsms.me/inter/font-files/Inter-SemiBold.woff2', fontWeight: 'semibold' },
+    { src: 'https://rsms.me/inter/font-files/Inter-Bold.woff2', fontWeight: 'bold' }
+  ]
+});
+
 // Define styles
 const styles = StyleSheet.create({
   page: {
     padding: 30,
-    fontFamily: 'TimesNewRoman'
+    fontFamily: 'TimesNewRoman, Inter, Helvetica, sans-serif'
   } as Style,
   header: {
     marginBottom: 20
