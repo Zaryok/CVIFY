@@ -5,6 +5,10 @@ import { PDFPreview } from '../components/PDFPreview';
 import ReactDOMServer from 'react-dom/server';
 import React from 'react';
 
+// Import and re-export PDFDocument to fix the circular dependency
+import { CVDocument as PDFDocument } from './pdf-generator.tsx';
+export { PDFDocument };
+
 /**
  * Generate a PDF document from the provided CV data
  * 
