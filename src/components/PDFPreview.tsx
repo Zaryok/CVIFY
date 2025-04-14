@@ -50,7 +50,17 @@ export function PDFPreview({ data, template }: PDFPreviewProps) {
       try {
         setLoading(true);
         const doc = <CVDocument cvData={data} />;
-        const pdfBlob = await pdf(doc).toBlob();
+        
+        // More robust error handling for PDF generation
+        let pdfBlob: Blob;
+        try {
+          pdfBlob = await pdf(doc).toBlob();
+        } catch (pdfError) {
+          console.error('PDF generation error:', pdfError);
+          setLoading(false);
+          return;
+        }
+        
         const url = URL.createObjectURL(pdfBlob);
         setPdfUrl(url);
         setLoading(false);
@@ -69,7 +79,7 @@ export function PDFPreview({ data, template }: PDFPreviewProps) {
         URL.revokeObjectURL(pdfUrl);
       }
     };
-  }, [data]);
+  }, [data, pdfUrl]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);

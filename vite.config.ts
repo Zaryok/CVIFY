@@ -9,8 +9,14 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // Remove @react-pdf/renderer from external as it's causing deployment issues
-      // external: ['@react-pdf/renderer'],
+      // Exclude problematic modules from bundling
+      external: ['next-themes/dist/index.module.js'],
+      output: {
+        // Handle excluded modules
+        globals: {
+          'next-themes/dist/index.module.js': 'nextThemes'
+        }
+      }
     },
     // Ensure assets are correctly referenced
     assetsDir: 'assets',
