@@ -2,13 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/images/cvify-logo.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CVify - Professional CV Builder</title>
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <meta name="description" content="Create professional, ATS-friendly CVs in minutes with our easy-to-use CV builder.">
+    <meta name="description" content="Build professional, ATS-optimized resumes easily with CVify" />
+    <title>CVify - Professional Resume Builder</title>
+    
+    <!-- Preload PDF.js worker for better performance -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js" as="script" crossorigin="anonymous" />
+    
+    <!-- Load fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
-  <body>
+  <body class="font-sans antialiased">
     <div id="root">
       <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; font-family: sans-serif;">
         <h1>CVify - Loading...</h1>

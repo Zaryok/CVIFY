@@ -5,7 +5,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import { CVDocument } from '../lib/pdf-generator';
 import { CVData } from '../types';
 import { pdf } from '@react-pdf/renderer';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 import './PDFPreview.css';
 import { MapPin, Phone, Mail, Linkedin, Github, Globe } from 'lucide-react';
 
@@ -23,6 +23,7 @@ export function PDFPreview({ data, template }: PDFPreviewProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [scale, setScale] = useState(1);
   const [width, setWidth] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Responsive scaling for mobile devices
@@ -49,39 +50,57 @@ export function PDFPreview({ data, template }: PDFPreviewProps) {
     const generatePDF = async () => {
       try {
         setLoading(true);
-        const doc = <CVDocument cvData={data} />;
+        setError(null); // Reset error state
+        console.log('Starting PDF generation...');
         
-        // More robust error handling for PDF generation
+        // Basic validation to prevent errors
+        if (!data || !data.content) {
+          throw new Error('Invalid CV data');
+        }
+        
+        const doc = <CVDocument cvData={data} />;
+        console.log('CV Document component created');
+        
         let pdfBlob: Blob;
         try {
+          console.log('Generating PDF blob...');
           pdfBlob = await pdf(doc).toBlob();
-        } catch (pdfError) {
+          console.log('PDF blob generated successfully');
+        } catch (pdfError: any) {
           console.error('PDF generation error:', pdfError);
+          setError(`PDF generation failed: ${pdfError.message || 'Unknown error'}`);
           setLoading(false);
           return;
         }
         
         const url = URL.createObjectURL(pdfBlob);
+        console.log('PDF URL created');
         setPdfUrl(url);
         setLoading(false);
-      } catch (error) {
-        console.error('Error generating PDF:', error);
+      } catch (error: any) {
+        console.error('Error in PDF generation process:', error);
+        setError(`PDF generation process failed: ${error.message || 'Unknown error'}`);
         setLoading(false);
       }
     };
 
     if (data) {
-      generatePDF();
+      // Small delay to ensure all state updates have completed
+      const timer = setTimeout(() => {
+        generatePDF();
+      }, 100);
+      
+      return () => {
+        clearTimeout(timer);
+        if (pdfUrl) {
+          URL.revokeObjectURL(pdfUrl);
+        }
+      };
     }
-
-    return () => {
-      if (pdfUrl) {
-        URL.revokeObjectURL(pdfUrl);
-      }
-    };
-  }, [data, pdfUrl]);
+  }, [data]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    console.log(`PDF loaded successfully with ${numPages} pages`);
     setNumPages(numPages);
   };
 
@@ -192,13 +211,29 @@ export function PDFPreview({ data, template }: PDFPreviewProps) {
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+        <h3 className="text-xl font-semibold text-red-500 mb-2">Preview Generation Failed</h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">{error}</p>
+        <p className="text-gray-500 dark:text-gray-400 text-sm max-w-md">
+          Don't worry! Your resume data is still saved. You can try again or proceed to download the PDF.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="pdf-preview flex flex-col items-center">
       {pdfUrl ? (
         <Document
           file={pdfUrl}
           onLoadSuccess={onDocumentLoadSuccess}
-          onLoadError={(error) => console.error('Error loading PDF:', error)}
+          onLoadError={(error) => {
+            console.error('Error loading PDF:', error);
+            setError(`Error loading PDF: ${error.message}`);
+          }}
           className="pdf-document"
           loading={
             <div className="flex flex-col items-center justify-center py-12">
@@ -219,6 +254,12 @@ export function PDFPreview({ data, template }: PDFPreviewProps) {
                 loading={
                   <div className="flex items-center justify-center h-[1100px] w-full">
                     <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+                  </div>
+                }
+                error={
+                  <div className="flex flex-col items-center justify-center h-[1100px] w-full">
+                    <AlertCircle className="w-8 h-8 text-red-500 mb-2" />
+                    <p className="text-red-500">Failed to load page {index + 1}</p>
                   </div>
                 }
               />

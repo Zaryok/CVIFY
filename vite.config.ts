@@ -6,6 +6,11 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],
+    // Make sure these dependencies are properly processed 
+    include: [
+      '@react-pdf/renderer',
+      'react-pdf'
+    ],
   },
   build: {
     rollupOptions: {
@@ -15,6 +20,10 @@ export default defineConfig({
         // Handle excluded modules
         globals: {
           'next-themes/dist/index.module.js': 'nextThemes'
+        },
+        manualChunks: {
+          // Move PDF libraries to their own chunk to improve loading performance
+          'pdf-lib': ['@react-pdf/renderer', 'react-pdf']
         }
       }
     },
@@ -22,7 +31,9 @@ export default defineConfig({
     assetsDir: 'assets',
     outDir: 'dist',
     // Improve compatibility with older browsers if needed
-    target: 'es2015'
+    target: 'es2015',
+    // Ensure sourcemaps are generated for easier debugging
+    sourcemap: true,
   },
   // Add base path configuration for deployment flexibility
   base: '/',
@@ -40,5 +51,9 @@ export default defineConfig({
     host: true,
     // Prevent CORS issues during development
     cors: true
+  },
+  // Configure proper handling of worker files
+  worker: {
+    format: 'es'
   }
 }); 
