@@ -94,18 +94,18 @@ export function DashboardPage() {
   
   return (
     <DashboardLayout>
-      <div className="max-w-6xl mx-auto px-2 sm:px-4 py-4 sm:py-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-8">
-          {/* Create New Resume Card - Make it more tappable on mobile */}
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+          {/* Create New Resume Card */}
           <div 
             onClick={handleCreateNew}
-            className="border border-dashed border-gray-600 rounded-lg p-4 sm:p-6 cursor-pointer hover:border-gray-400 transition-all duration-300 flex flex-col items-center justify-center min-h-[150px] sm:min-h-[200px] bg-gray-800/20"
+            className="border border-dashed border-gray-600 rounded-lg p-6 cursor-pointer hover:border-gray-400 transition-all duration-300 flex flex-col items-center justify-center min-h-[200px] bg-gray-800/20"
           >
-            <h3 className="text-lg sm:text-xl font-medium text-gray-300 mb-2">Create new resume</h3>
-            <PlusCircle size={32} className="text-gray-500 mt-4" />
+            <h3 className="text-xl font-medium text-gray-300 mb-2">Create new resume</h3>
+            <PlusCircle size={36} className="text-gray-500 mt-4" />
           </div>
           
-          {/* Resume Cards - Improve mobile UI */}
+          {/* Resume Cards */}
           {resumes.length > 0 ? (
             resumes.map((resume) => (
               <div key={resume.id} className="bg-gray-800/40 rounded-lg overflow-hidden">
@@ -115,18 +115,18 @@ export function DashboardPage() {
                     className="p-4 cursor-pointer h-full relative"
                   >
                     <div className="mb-2 flex justify-between items-start">
-                      <div className="max-w-[70%]">
-                        <h3 className="text-base sm:text-lg font-normal text-gray-300 break-words">{resume.title.toLowerCase()}</h3>
-                        <p className="text-xs sm:text-sm text-gray-500">Edited {getTimeAgo(resume.updated_at)}</p>
+                      <div>
+                        <h3 className="text-lg font-normal text-gray-300">{resume.title.toLowerCase()}</h3>
+                        <p className="text-sm text-gray-500">Edited {getTimeAgo(resume.updated_at)}</p>
                       </div>
-                      <div className="flex gap-2 sm:gap-3 items-center">
-                        {/* Mobile-friendly action buttons with increased tap targets */}
+                      <div className="flex gap-3 items-center">
+                        {/* Download button */}
                         <button 
                           onClick={(e) => handleDownloadResume(resume, e)}
-                          className="p-2 hover:bg-gray-700 rounded transition-colors"
+                          className="p-1 hover:bg-gray-700 rounded transition-colors"
                           aria-label="Download resume"
                         >
-                          <Download size={16} className="text-gray-400 hover:text-gray-200" />
+                          <Download size={18} className="text-gray-400 hover:text-gray-200" />
                         </button>
                         {/* Edit button for quick access */}
                         <button 
@@ -134,15 +134,15 @@ export function DashboardPage() {
                             e.stopPropagation();
                             handleEditResume(resume.id || '');
                           }}
-                          className="p-2 hover:bg-gray-700 rounded transition-colors"
+                          className="p-1 hover:bg-gray-700 rounded transition-colors"
                           aria-label="Edit resume"
                         >
-                          <Pencil size={16} className="text-gray-400 hover:text-gray-200" />
+                          <Pencil size={18} className="text-gray-400 hover:text-gray-200" />
                         </button>
                         {/* Options Menu Button */}
                         <button 
                           onClick={(e) => toggleMenu(resume.id || '', e)} 
-                          className="text-gray-500 hover:text-gray-300 p-2 rounded-full transition-colors"
+                          className="text-gray-500 hover:text-gray-300 p-1 rounded-full transition-colors"
                         >
                           <MoreVertical size={16} />
                         </button>
@@ -150,7 +150,7 @@ export function DashboardPage() {
                     </div>
                     
                     {/* Mini Resume Preview - Just showing basic format */}
-                    <div className="bg-gray-900 p-4 rounded h-[100px] sm:h-[120px] overflow-hidden">
+                    <div className="bg-gray-900 p-4 rounded h-[120px] overflow-hidden">
                       <div className="border-b border-gray-700 pb-1 mb-1">
                         <div className="w-1/2 h-3 bg-gray-700 rounded-full mb-1"></div>
                         <div className="w-1/3 h-2 bg-gray-700 rounded-full"></div>
@@ -169,14 +169,14 @@ export function DashboardPage() {
                     </div>
                   </div>
                   
-                  {/* Dropdown Menu - Improved positioning for mobile */}
+                  {/* Dropdown Menu - Now positioned relative to its parent */}
                   {activeMenu === resume.id && (
-                    <div className="absolute right-0 top-12 w-40 bg-gray-800 rounded shadow-lg z-10 border border-gray-700">
+                    <div className="absolute right-4 top-12 w-40 bg-gray-800 rounded shadow-lg z-10">
                       <ul className="py-1">
                         <li>
                           <button
                             onClick={(e) => handleDuplicateResume(resume.id || '', e)}
-                            className="w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-gray-700"
+                            className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
                           >
                             Duplicate
                           </button>
@@ -184,7 +184,7 @@ export function DashboardPage() {
                         <li>
                           <button
                             onClick={(e) => handleDeleteResume(resume.id || '', e)}
-                            className="w-full text-left px-4 py-3 text-sm text-red-400 hover:bg-gray-700"
+                            className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700"
                           >
                             Delete
                           </button>
@@ -197,18 +197,18 @@ export function DashboardPage() {
             ))
           ) : (
             <div className="bg-gray-800/40 rounded-lg overflow-hidden">
-              <div className="p-6 flex flex-col items-center justify-center min-h-[150px] sm:min-h-[200px]">
-                <h3 className="text-lg sm:text-xl font-medium text-gray-500 mb-2">Open resume to start</h3>
+              <div className="p-6 flex flex-col items-center justify-center min-h-[200px]">
+                <h3 className="text-xl font-medium text-gray-500 mb-2">Open resume to start</h3>
               </div>
             </div>
           )}
         </div>
         
-        {/* Add Section Button - more tappable on mobile */}
-        <div className="mt-6 sm:mt-8">
+        {/* Add Section Button (like in the reference UI) */}
+        <div className="mt-8">
           <button 
             onClick={handleCreateNew} 
-            className="flex items-center gap-2 px-4 py-3 border border-gray-700 text-gray-400 rounded-md hover:bg-gray-800/50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 border border-gray-700 text-gray-400 rounded-md hover:bg-gray-800/50 transition-colors"
           >
             <PlusCircle size={18} />
             <span>ADD SECTION</span>

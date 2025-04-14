@@ -1,23 +1,9 @@
 import { CVData } from '../types';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { PDFPreview } from '../components/PDFPreview';
 import ReactDOMServer from 'react-dom/server';
 import React from 'react';
-import { CVDocument } from './pdf-generator.tsx';
-export { CVDocument };
-
-// Define a simple version of PDFDocument for use in this file
-// This breaks the circular dependency
-const SimplePDFRenderer = ({ data }: { data: CVData }) => {
-  return React.createElement('div', { className: 'pdf-container' },
-    React.createElement('h1', { className: 'name' }, data.content.personal.fullName),
-    React.createElement('div', { className: 'contact-container' },
-      React.createElement('p', null, data.content.personal.email),
-      React.createElement('p', null, data.content.personal.phone),
-      React.createElement('p', null, data.content.personal.location)
-    )
-  );
-};
 
 /**
  * Generate a PDF document from the provided CV data
@@ -45,8 +31,8 @@ export async function generatePDF(data: CVData): Promise<Blob> {
     fontLoader.href = 'https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap';
     document.head.appendChild(fontLoader);
 
-    // Create and render the CV with a simple renderer
-    const cvComponent = React.createElement(SimplePDFRenderer, { data });
+    // Create and render the CV preview
+    const cvComponent = React.createElement(PDFPreview, { data });
     const cvHTML = ReactDOMServer.renderToString(cvComponent);
     tempDiv.innerHTML = cvHTML;
 

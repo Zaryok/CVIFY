@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { Header } from './components/Header';
 import { FileText, Download, CheckCircle, Pencil, X, MinusCircle } from 'lucide-react';
+import { ThemeProvider } from 'next-themes';
 import { BuilderPage } from './pages/BuilderPage';
 import { TestingPage } from './pages/TestingPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -10,15 +11,6 @@ import { CreateResumePage } from './pages/CreateResumePage';
 import { EditResumePage } from './pages/EditResumePage';
 import { Toast } from './components/Toast';
 import { verifyLocalStorage } from './utils/storageUtils';
-import { useCustomTheme } from './hooks/useCustomTheme';
-
-// Custom Theme Provider wrapper component
-const CustomThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  // Initialize theme hook
-  useCustomTheme();
-  
-  return <>{children}</>;
-};
 
 function App() {
   useEffect(() => {
@@ -31,7 +23,7 @@ function App() {
   }, []);
 
   return (
-    <CustomThemeProvider>
+    <ThemeProvider attribute="class">
       <Router basename={import.meta.env.BASE_URL || '/'}>
         <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors">
           <Header />
@@ -54,7 +46,7 @@ function App() {
         </div>
       </Router>
       <Toast />
-    </CustomThemeProvider>
+    </ThemeProvider>
   );
 }
 

@@ -1,11 +1,7 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  
-  # Specify a Node version that matches your project requirements
-  [build.environment]
-    NODE_VERSION = "16"
-    NPM_FLAGS = "--legacy-peer-deps"
+  environment = { NODE_VERSION = "18" }
 
 [[redirects]]
   from = "/*"
