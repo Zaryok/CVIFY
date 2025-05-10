@@ -1,93 +1,84 @@
-# CVify - Professional Resume Builder
+# 💼 CVify - Professional Resume Builder
 
 ![CVify Logo](/public/images/cvify-logo.svg)
 
+<p align="center">
+  <strong>Build stunning, ATS-friendly resumes in minutes.</strong><br>
+  <em>A sleek, modern web app built with React + TypeScript</em>
+</p>
+
+<p align="center">
+  <a href="#-features">Features</a> • 
+  <a href="#-technologies-used">Tech Stack</a> • 
+  <a href="#-screenshots">Screenshots</a> • 
+  <a href="#-quick-start">Quick Start</a> • 
+  <a href="#-project-structure">Project Structure</a> • 
+  <a href="#-license">License</a>
+</p>
+
+---
+
 ## 🚀 Overview
 
-CVify is a modern web application that allows users to create, edit, and manage professional resumes with ease. Built with React and TypeScript, this client-side application provides a seamless experience for creating ATS-friendly resumes with real-time preview and PDF export capabilities.
+**CVify** is a user-friendly web application designed to help users craft professional, ATS-compatible resumes effortlessly. With a modern interface, real-time preview, and instant PDF export, CVify streamlines the resume creation process.
+
+<div align="center">
+  <img src="/docs/screenshots/editor.png" width="80%" alt="Resume Editor Preview" />
+</div>
+
+---
 
 ## ✨ Features
 
-- **Resume Dashboard**: Create, edit, duplicate, and manage all your resumes in one place
-- **Step-by-Step Form Wizard**: Intuitive process to create professional resumes
-- **Real-Time PDF Preview**: See your changes instantly as you type
-- **Professional PDF Export**: Generate high-quality, ATS-friendly PDF resumes
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Dark/Light Mode**: Choose your preferred theme
-- **Local Storage**: All data is saved locally in your browser
+- 🗂️ **Resume Dashboard** – Manage multiple resumes (create, edit, duplicate, delete)
+- 🧙 **Form Wizard** – Guided multi-step builder for structured data input
+- 🖼️ **Real-Time Preview** – Live PDF preview while editing
+- 📄 **PDF Export** – Professionally formatted, ATS-friendly export
+- 🌗 **Dark / Light Mode** – Customizable theme toggle
+- 📱 **Responsive Design** – Fully optimized for all screen sizes
+- 💾 **Local Persistence** – Saves resume data securely in the browser
+
+---
 
 ## 🛠️ Technologies Used
 
-- **Frontend**:
-  - React 18
-  - TypeScript
-  - React Router v6
-  - Tailwind CSS
-  - Lucide React (Icons)
+| Area             | Tech Stack |
+|------------------|------------|
+| **Frontend**     | React 18, TypeScript, React Router v6, Tailwind CSS |
+| **Icons & UI**   | Lucide React |
+| **PDF Generation** | @react-pdf/renderer, jspdf, html2canvas |
+| **State Management** | React `useState`, Local Storage |
+| **Build Tools**  | Vite, ESLint, PostCSS |
 
-- **PDF Generation**:
-  - @react-pdf/renderer
-  - jspdf
-  - html2canvas
-
-- **State Management**:
-  - React useState hooks
-  - Local Storage for persistence
-
-- **Build Tools**:
-  - Vite
-  - ESLint
-  - PostCSS
+---
 
 ## 📸 Screenshots
 
-### Home Page
-![Home Page](/docs/screenshots/home.png)
+| Home Page | Dashboard |
+|-----------|-----------|
+| ![Home](/docs/screenshots/home.png) | ![Dashboard](/docs/screenshots/dashboard.png) |
 
-### Dashboard
-![Dashboard](/docs/screenshots/dashboard.png)
+| Resume Editor | PDF Preview |
+|---------------|-------------|
+| ![Editor](/docs/screenshots/editor.png) | ![Preview](/docs/screenshots/preview.png) |
 
-### Resume Editor
-![Resume Editor](/docs/screenshots/editor.png)
-
-### PDF Preview
-![PDF Preview](/docs/screenshots/preview.png)
+---
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Node.js (v14.0.0 or later)
+### ⚙️ Prerequisites
+- Node.js `v14.0.0+`
 - npm or yarn
 
-### Installation
+### 🛠️ Installation
 
-1. Clone the repository
 ```bash
+# Clone the repository
 git clone https://github.com/yourusername/cvify.git
 cd cvify
-```
 
-2. Install dependencies
-```bash
-npm install
-# or
-yarn install
-```
+# Install dependencies
+npm install # or yarn install
 
-3. Start the development server
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open your browser and navigate to `http://localhost:5173`
-
-### Building for production
-```bash
-npm run build
-# or
-yarn build
-```
-
-## 🧩 Project Structure
+# Start development server
+npm run dev # or yarn dev
